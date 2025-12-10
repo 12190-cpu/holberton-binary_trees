@@ -1,33 +1,57 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_is_perfect - Vérifie si un arbre est parfait
- * @tree: Pointeur vers la racine de l’arbre
+ * tree_height - Measures the height of a binary tree
+ * @tree: Pointer to the root node of the tree to measure the height
  *
- * Return: 1 si parfait, 0 sinon
+ * Return: Height of the tree, or 0 if tree is NULL
+ */
+size_t tree_height(const binary_tree_t *tree)
+{
+    size_t left, right;
+
+    if (tree == NULL)
+        return (0);
+
+    left = tree_height(tree->left);
+    right = tree_height(tree->right);
+
+    return (1 + (left > right ? left : right));
+}
+
+/**
+ * tree_size - Measures the size of a binary tree
+ * @tree: Pointer to the root node of the tree to measure the size
+ *
+ * Return: Size of the tree, or 0 if tree is NULL
+ */
+size_t tree_size(const binary_tree_t *tree)
+{
+    if (tree == NULL)
+        return (0);
+
+    return (1 + tree_size(tree->left) + tree_size(tree->right));
+}
+
+/**
+ * binary_tree_is_perfect - Checks if a binary tree is perfect
+ * @tree: Pointer to the root node of the tree to check
+ *
+ * Return: 1 if the tree is perfect, 0 otherwise
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t left_height, right_height;
+    size_t height, expected_nodes, actual_nodes;
 
-	if (tree == NULL)
-		return (0);
+    if (tree == NULL)
+        return (0);
 
-	if (tree->left == NULL && tree->right == NULL) /*si pas d'enfant gche ou dte : feuille parfait */
-		return (1);
+    height = tree_height(tree);
+    actual_nodes = tree_size(tree);
 
-	if (tree->left == NULL || tree->right == NULL) /* si un seul enfant  pas parfait */
-		return (0);
+    /* Formula: a perfect tree of height h has 2^h - 1 nodes */
+    expected_nodes = (1 << height) - 1;
 
-	left_height = binary_tree_height(tree->left); /*calcul de la hauteur des enfants*/
-	right_height = binary_tree_height(tree->right);
-
-    /* Un arbre est parfait si :
-       - Les deux sous-arbres ont la même hauteur
-       - Les deux sous-arbres sont eux-mêmes parfaits */
-	if (left_height == right_height)
-		return (binary_tree_is_perfect(tree->left) &&
-			binary_tree_is_perfect(tree->right));
-
-	return (0);
+    return (actual_nodes == expected_nodes);
 }
+
