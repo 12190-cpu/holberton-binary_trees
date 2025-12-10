@@ -8,8 +8,8 @@
  */
 size_t binary_tree_depth(const binary_tree_t *node)
 {
-	if (node == NULL || node->parent == NULL) /*on cherche a savoir si on est dans la racine*/
+	if (node == NULL || node->parent == NULL) /*on est dans la racine?*/
 		return (0);
 
-	return (1 + binary_tree_depth(node->parent)); /*si pas ds la racine, on calcule la profondeur jusau'a la racine*/
+	return (1 + binary_tree_depth(node->parent)); /*on calcule la prof */
 }

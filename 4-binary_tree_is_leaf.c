@@ -9,13 +9,13 @@
 int binary_tree_is_leaf(const binary_tree_t *node)
 {
     /* Étape 1 : vérifier si le nœud existe */
-    if (node == NULL)
-        return (0);
+	if (node == NULL)
+		return (0);
 
     /* Étape 2 : une feuille n’a pas d’enfants */
-    if (node->left == NULL && node->right == NULL)
-        return (1);
+	if (node->left == NULL && node->right == NULL)
+		return (1);
 
     /* Sinon, ce n’est pas une feuille */
-    return (0);
+	return (0);
 }
